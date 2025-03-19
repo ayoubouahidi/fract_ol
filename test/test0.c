@@ -41,7 +41,7 @@ int main()
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
 	//square
 	// while (i < 200)
-	// {
+	// { 	
 	// 	j = 0;
 	// 	while (j < 200)
 	// 	{

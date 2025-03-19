@@ -94,17 +94,17 @@ void func(t_var *var, int each){
 	// 	pixel_put(var, x3 + x0, y3 + y0, color);
 	// 	pixel_put(var, x4 + x0, y4 + y0, color);
 	// }
-	for (int i = 1; i < 8 ;i++){
- 		r = 50 * i;
-		for(y = y0 - r; y <= y0 + r; y = y + 0.1){
-			x = sqrt(r * r - (y - y0) * (y - y0)) + x0;
-			pixel_put(var, x, y, color);
-		}
-		for(y = y0 + r; y >= y0 - r; y = y - 0.1){
-			x = -sqrt(r * r - (y - y0) * (y - y0)) + x0;
-			pixel_put(var, x, y, color);
-		}
-	}
+	// for (int i = 1; i < 8 ;i++){
+ 	// 	r = 50 * i;
+	// 	for(y = y0 - r; y <= y0 + r; y = y + 0.1){
+	// 		x = sqrt(r * r - (y - y0) * (y - y0)) + x0;
+	// 		pixel_put(var, x, y, color);
+	// 	}
+	// 	for(y = y0 + r; y >= y0 - r; y = y - 0.1){
+	// 		x = -sqrt(r * r - (y - y0) * (y - y0)) + x0;
+	// 		pixel_put(var, x, y, color);
+	// 	}
+	// }
 	y = var->height;
 	for(x = 0; x < var->width; x++){
 		y--;
@@ -112,33 +112,33 @@ void func(t_var *var, int each){
 	}
 }
 
-// int	bind(int keycode, t_var *var)
-// {
+int	bind(int keycode, t_var *var)
+{
 
-// 	mlx_clear_window(var->mlx, var->win);
+	mlx_clear_window(var->mlx, var->win);
 
-//     if (keycode == 65361)
-//         var->mw -= var->speed, printf("left %d\n", var->mw);
-//     else if (keycode == 65363)
-//         var->mw += var->speed, printf("right %d\n", var->mw);
-//     else if (keycode == 65364)
-//     	var->mh += var->speed, printf("down %d\n", var->mh);
-//     else if (keycode == 65362)
-//         var->mh -= var->speed, printf("up %d\n", var->mh);
-// 	reset(var);
-//     if (keycode == 65361 || keycode == 65362|| keycode == 65363 || keycode == 65364)
-// 	    func(var, 1);
+    if (keycode == 65361)
+        var->mw -= var->speed, printf("left %d\n", var->mw);
+    else if (keycode == 65363)
+        var->mw += var->speed, printf("right %d\n", var->mw);
+    else if (keycode == 65364)
+    	var->mh += var->speed, printf("down %d\n", var->mh);
+    else if (keycode == 65362)
+        var->mh -= var->speed, printf("up %d\n", var->mh);
+	reset(var);
+    if (keycode == 65361 || keycode == 65362|| keycode == 65363 || keycode == 65364)
+	    func(var, 1);
 
-//     else if (keycode == 49)
-// 	    var->mw = 0, var->mh = 0, func(var, 1);
-//     if (keycode == 65307)
-// 	 {
-// 		mlx_destroy_window(var->mlx, var->win), printf("destroy\n");
-// 		exit(1);
-// 	}
-//     printf("%d\n", keycode);
-//     return (0);
-// }
+    else if (keycode == 49)
+	    var->mw = 0, var->mh = 0, func(var, 1);
+    if (keycode == 65307)
+	 {
+		mlx_destroy_window(var->mlx, var->win), printf("destroy\n");
+		exit(1);
+	}
+    printf("%d\n", keycode);
+    return (0);
+}
 
 int	main(void)
 {
@@ -153,7 +153,7 @@ int	main(void)
 	var.win = mlx_new_window(var.mlx, var.width, var.height, "FRACT'OL");
 
 	func(&var, 1);
-	// mlx_hook(var.win, 2, 1L<<0, bind, &var);
-	// mlx_hook(var.win, 3, 1L<<1, bind, &var);
+	mlx_hook(var.win, 2, 1L<<0, bind, &var);
+	mlx_hook(var.win, 3, 1L<<1, bind, &var);
 	mlx_loop(var.mlx);
 }
