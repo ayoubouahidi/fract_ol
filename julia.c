@@ -126,7 +126,7 @@ int	close_julia(int keycode,t_data *vars)
 
 
 
-int julia()
+int julia(double a, double b)
 {
 	t_data shape;
 	t_graph gr;
@@ -136,8 +136,8 @@ int julia()
 	gr.x_min = -3.0;
 	gr.y_max = 1.5;
 	gr.y_min = -1.5;
-	gr.cx = -0.8;
-	gr.cy = 0.156;
+	gr.cx = a;
+	gr.cy = b;
 	shape.gr = &gr;
 	
 	shape.mlx = mlx_init();
