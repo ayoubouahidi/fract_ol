@@ -31,6 +31,7 @@ typedef struct	s_data {
 }				t_data;
 
 int	mandelbrot();
+int julia();
 // typedef struct s_vars
 // {
 // 	void *mlx;

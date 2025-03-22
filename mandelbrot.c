@@ -95,46 +95,46 @@ void	drawing_mandelbort(t_data *shap)
 	mlx_put_image_to_window(shap->mlx, shap->mlx_win, shap->img, 0, 0);
 }
 
-void	julia(t_data *shap,double cx, double cy)
-{
-	double x;
-	double y;
-	double zx;
-	double zy;
-	double zr;
-	double zi;
-	int	i;
-	int	i_max;
-	y = 0;
-	i_max = 100.0;
-	while (y < WIDTH)
-	{
-		x = 0;
-		while (x < HEIGHT)
-		{
-			zy = shap->gr->y_min + y / WIDTH * (shap->gr->y_max - shap->gr->y_min);
-			zx = shap->gr->x_min + x / HEIGHT * (shap->gr->x_max - shap->gr->x_min);
-			i = 0.0;
-			while (zx * zx + zy * zy < 4 && i < i_max)
-			{
-				zr = (zx * zx) - (zy * zy) + cx;
-				zi = 2 * zx * zy + cy;
-				zx = zr;
-				zy = zi;
-				// printf("i ==> %d\n", i);
-				i++;
-			}
-			if (i == i_max)
-				my_mlx_pixel_put(shap, x, y, 0x000000);
-			else
-				my_mlx_pixel_put(shap, x, y, rgb(i));
-			// printf("x ==> %f, y ==> %f\n", cx, cy);
-			x++;
-		}
-		y++;
-	}
-	mlx_put_image_to_window(shap->mlx, shap->mlx_win, shap->img, 0, 0);
-}
+// void	julia(t_data *shap,double cx, double cy)
+// {
+// 	double x;
+// 	double y;
+// 	double zx;
+// 	double zy;
+// 	double zr;
+// 	double zi;
+// 	int	i;
+// 	int	i_max;
+// 	y = 0;
+// 	i_max = 100.0;
+// 	while (y < WIDTH)
+// 	{
+// 		x = 0;
+// 		while (x < HEIGHT)
+// 		{
+// 			zy = shap->gr->y_min + y / WIDTH * (shap->gr->y_max - shap->gr->y_min);
+// 			zx = shap->gr->x_min + x / HEIGHT * (shap->gr->x_max - shap->gr->x_min);
+// 			i = 0.0;
+// 			while (zx * zx + zy * zy < 4 && i < i_max)
+// 			{
+// 				zr = (zx * zx) - (zy * zy) + cx;
+// 				zi = 2 * zx * zy + cy;
+// 				zx = zr;
+// 				zy = zi;
+// 				// printf("i ==> %d\n", i);
+// 				i++;
+// 			}
+// 			if (i == i_max)
+// 				my_mlx_pixel_put(shap, x, y, 0x000000);
+// 			else
+// 				my_mlx_pixel_put(shap, x, y, rgb(i));
+// 			// printf("x ==> %f, y ==> %f\n", cx, cy);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	mlx_put_image_to_window(shap->mlx, shap->mlx_win, shap->img, 0, 0);
+// }
 
 int	mouse_hook( int button,int x, int y, void *param)
 {
