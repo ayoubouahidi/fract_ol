@@ -94,17 +94,19 @@ char	*isvalid(char *av)
 	int		err;
 
 	i = 0;
-	if (av[0] != '-' && av[0] != '+' && !ft_isdigit(av[0]))
+	if (av[0] != '-' && av[0] != '+'  && !ft_isdigit(av[0]))
 		return (NULL);
 	if ((av[0] == '-' || av[0] == '+') && lenght(av) == 1)
 		return (NULL);
 	i++;
-	while (av[i] != '\0')
+	while (av[i] != '.' && av[i] != '\0')
 	{
-		if (!ft_isdigit(av[i]) )
+		if (!ft_isdigit(av[i]))
 			return (NULL);
 		i++;
 	}
+	if(av[i] != '\0')
+		isvalid(av + i);
 	err = 0;
 	result = ft_atoi_err(av, &err);
 	(void)result;
@@ -112,16 +114,58 @@ char	*isvalid(char *av)
 		return (NULL);
 	return ("is valid ");
 }
+void    is_not_digit(char **param, int i, int j)
+{
+    if (!ft_isdigit(param[i][j]))
+    {
+        ft_putstr("Anvalid argument ...\n");
+        exit(0);
+    }
+}
+
+int    check_param(char **param)
+{
+    int (i), (found_poin), (found_moin_plus), (j);
+    i = 2;
+    while (param[i])
+    {
+        j = 0;
+        found_poin = 0;
+        found_moin_plus = 0;
+        while (param[i][j])
+        {
+            if ((param[i][j] == '.') && (!found_poin))
+            {
+                found_poin = 1;
+                j++;
+            }
+            if ((param[i][0] == '+' || param[i][0] == '-') && !found_moin_plus)
+            {
+                found_moin_plus = 1;
+                j++;
+            }
+            ;
+            j++;
+        }
+        i++;
+    }
+    return (0);
+}
+
+double	new_atoi(char *av)
+{
+
+}
 
 int main(int ac, char **av)
 {
 	if (ac <= 4 && ac >= 2)
 	{
 		if (ft_strncmp(av[1], "mandelbrot", 10) == 0 )
-		mandelbrot();
+			mandelbrot();
 		else if (ft_strncmp(av[1], "julia", 5) == 0 && (ac <=4 && ac >= 2))
 		{
-			if ((av[2][0] == '\0' || !is_valid_arg(av[2])) && (av[3][0] == '\0' || !is_valid_arg(av[3])))
+			if ((av[2][0] == '\0' || !isvalid(av[2])) && (av[3][0] == '\0' || !isvalid(av[3])))
 				julia();
 
 		}
