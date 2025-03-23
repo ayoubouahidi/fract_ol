@@ -1,5 +1,5 @@
 
-SRC		= julia.c main.c mandelbrot.c 
+SRC		= julia.c main.c mandelbrot.c main_utils.c mand_utils.c julia_utils.c
 CC		= cc
 OBJS	= $(SRC:.c=.o)
 CFLAGS	= -Wall -Wextra -Werror -g
@@ -37,3 +37,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+.SECONDARY:

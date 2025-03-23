@@ -17,147 +17,22 @@
 #define HEIGHT 1920
 #define WIDTH 1080
 
-
-void	my_mlx_pixel_put_julia(t_data *data, int x, int y, int color)
+int	close_julia(t_data *vars)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-int rgb_julia(int i)
-{
-	int r;
-	int g;
-	int b;
-  // i = 30;
-	r = (i * 19 ) % 256; // 58
-	g = (i * 10) % 256; // 44
-	b = (i * 8) % 256; // 240
-	return (r * 65536 + g * 256 + b); // 58 * 65536 + 44* 256 + 240 //
-}
-
-int	i_equalt_to_j(double zx, double zy, int i_max, t_data *shap)
-{
-	int (i);
-	double (zr), (zi);
-	i = 0;
-	while (zx * zx + zy * zy < 4 && i < i_max)
-			{
-				zr = (zx * zx) - (zy * zy) + shap->gr->cx;
-				zi = 2 * zx * zy + shap->gr->cy;
-				zx = zr;
-				zy = zi;
-				i++;
-			}
-	return(i);
-}
-void	draw_julia(t_data *shap)
-{
-	double (x), (y), (zx), (zy);
-	int	(i), (i_max);
-	y = 0;
-	i_max = 100.0;
-	while (y < WIDTH)
-	{
-		x = 0;
-		while (x < HEIGHT)
-		{
-			zx = shap->gr->x_min + x / HEIGHT * (shap->gr->x_max - shap->gr->x_min);
-			zy = shap->gr->y_min + y / WIDTH * (shap->gr->y_max - shap->gr->y_min);
-			i = i_equalt_to_j(zx, zy, i_max, shap);
-			if (i == i_max)
-				my_mlx_pixel_put_julia(shap, x, y, 0x000000);
-			else
-				my_mlx_pixel_put_julia(shap, x, y, rgb_julia(i));
-			x++;
-		}
-		y++;
-	}
-	mlx_put_image_to_window(shap->mlx, shap->mlx_win, shap->img, 0, 0);
-}
-
-// void	draw_julia(t_data *shap)
-// {
-// 	double x;
-// 	double y;
-// 	double zx;
-// 	double zy;
-// 	double zr;
-// 	double zi;
-// 	int	i;
-// 	int	i_max;
-// 	y = 0;
-// 	i_max = 100.0;
-// 	while (y < WIDTH)
-// 	{
-// 		x = 0;
-// 		while (x < HEIGHT)
-// 		{
-// 			zy = shap->gr->y_min + y / WIDTH * (shap->gr->y_max - shap->gr->y_min);
-// 			zx = shap->gr->x_min + x / HEIGHT * (shap->gr->x_max - shap->gr->x_min);
-// 			i = 0.0;
-// 			while (zx * zx + zy * zy < 4 && i < i_max)
-// 			{
-// 				zr = (zx * zx) - (zy * zy) + shap->gr->cx;
-// 				zi = 2 * zx * zy + shap->gr->cy;
-// 				zx = zr;
-// 				zy = zi;
-// 				i++;
-// 			}
-// 			if (i == i_max)
-// 				my_mlx_pixel_put_julia(shap, x, y, 0x000000);
-// 			else
-// 				my_mlx_pixel_put_julia(shap, x, y, rgb_julia(i));
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	mlx_put_image_to_window(shap->mlx, shap->mlx_win, shap->img, 0, 0);
-// }
-
-int	mouse_hook_julia( int button,int x, int y, void *param)
-{
-	(void)x;
-	(void)y;
-	t_data *shape;
-
-	shape = (t_data *)param;
-	if(!shape)
-		return (0);
-	if(button == 5)
-	{
-		shape->gr->x_max = shape->gr->x_max * 1.2;
-		shape->gr->x_min *= 1.2;
-		shape->gr->y_max *= 1.2;
-		shape->gr->y_min *= 1.2;
-	}
-	else if (button == 4)
-	{
-		shape->gr->x_max =shape->gr->x_max / 1.2;	
-		shape->gr->x_min /= 1.2;
-		shape->gr->y_max /= 1.2;
-		shape->gr->y_min /= 1.2;
-	}
-	draw_julia(shape);
-	mlx_put_image_to_window(shape->mlx, shape->mlx_win, shape->img, 0, 0);
-	return (0);
-}
-
-int close_julia(t_data *vars)
-{
-	mlx_destroy_image(vars->mlx, vars->img);
-	mlx_destroy_window(vars->mlx, vars->mlx_win);
-	mlx_destroy_display(vars->mlx);
+	if (vars->img)
+		mlx_destroy_image(vars->mlx, vars->img);
+	if (vars->mlx_win)
+		mlx_destroy_window(vars->mlx, vars->mlx_win);
+	if (vars->mlx)
+		mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	exit(0);
 }
 
-int escape(int keycode, t_data *vars)
+int	escape(int keycode, t_data *vars)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	y = 0;
@@ -166,10 +41,39 @@ int escape(int keycode, t_data *vars)
 	return (0);
 }
 
-int julia(double a, double b)
+void	init(t_data *shape)
 {
-	t_data shape;
-	t_graph gr;
+	shape->mlx = mlx_init();
+	if (!shape->mlx)
+	{
+		ft_printf("MLX FAIL");
+		exit(1);
+	}
+	shape->mlx_win = mlx_new_window(shape->mlx, 1920, 1080, "JULIA");
+	if (!shape->mlx_win)
+	{
+		ft_printf("MLX FAIL");
+		close_julia(shape);
+	}
+	shape->img = mlx_new_image(shape->mlx, 1920, 1080);
+	if (!shape->img)
+	{
+		ft_printf("MLX FAIL");
+		close_julia(shape);
+	}
+	shape->addr = mlx_get_data_addr(shape->img,
+			&shape->bits_per_pixel, &shape->line_length, &shape->endian);
+	if (!shape->addr)
+	{
+		ft_printf("MLX FAIL");
+		close_julia(shape);
+	}
+}
+
+int	julia(double a, double b)
+{
+	t_data	shape;
+	t_graph	gr;
 
 	gr.x_max = 2;
 	gr.x_min = -3.0;
@@ -178,16 +82,7 @@ int julia(double a, double b)
 	gr.cx = a;
 	gr.cy = b;
 	shape.gr = &gr;
-	shape.mlx = mlx_init();
-	if(!shape.mlx)
-		return(ft_printf("MLX FAIL"), 0);
-	shape.mlx_win = mlx_new_window(shape.mlx, 1920, 1080, "JULIA");
-	if(!shape.mlx_win)
-		return(ft_printf("MLX FAIL"), 0);
-	shape.img = mlx_new_image(shape.mlx, 1920, 1080);
-	if(!shape.img)
-		return(ft_printf("MLX FAIL"), 0);
-	shape.addr = mlx_get_data_addr(shape.img, &shape.bits_per_pixel, &shape.line_length, &shape.endian);
+	init(&shape);
 	draw_julia(&shape);
 	mlx_hook(shape.mlx_win, 2, 1L << 0, escape, &shape);
 	mlx_hook(shape.mlx_win, 17, 0, close_julia, &shape);
