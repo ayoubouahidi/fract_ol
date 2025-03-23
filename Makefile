@@ -27,12 +27,12 @@ $(LIBFT_LIB):
 clean:
 	rm -f $(OBJS)
 	$(MK) -C $(FT_PRINTF_DIR) clean
-	$(MK) -C $(LIBFT_DIR) clean
+	# $(MK) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
 	$(MK) -C $(FT_PRINTF_DIR) fclean
-	$(MK) -C $(LIBFT_DIR) fclean
+	# $(MK) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

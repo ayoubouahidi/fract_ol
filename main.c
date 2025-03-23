@@ -83,7 +83,7 @@ int isvalid(char *str)
 		i++;
     while (str[i] != '\0') {
         if (str[i] == '.') {
-            if (has_decimal || i == 0 || i == len - 1)
+            if (has_decimal || i == 0 || i == len - 1 || str[i -1] == '-')
                 return 0;
 			has_decimal = 1;
 		} 
@@ -94,21 +94,14 @@ int isvalid(char *str)
 	}
 	return (i > 0);
 }
-double ft_atoi(char *str)
-{
-    int i = 0;
-    int sign = 1;
-    double result = 0.0;
-    double decimal = 1.0;
 
-    if (!str)
-        return 0;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
+double	check_calcul(char *str, int i)
+{	
+	double	dicimal;
+	double    result;
+
+	result = 0;
+	dicimal = 1.0;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + (str[i] - '0');
@@ -119,14 +112,33 @@ double ft_atoi(char *str)
 		i++;
 		while (str[i] >= '0' && str[i] <= '9')
 		{
-			decimal /= 10;
-			result += (str[i] - '0') * decimal;
+			dicimal /= 10;
+			result += (str[i] - '0') * dicimal;
 			i++;
 		}
 	}
-	return (result * sign);
+	return (result);
 }
 
+double	ft_atoi(char *str)
+{
+    int	i;
+    int	sign;
+    double	res;
+
+	i = 0;
+	sign = 1;
+	if (!str)
+		return (0);
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	res = check_calcul(str, i);
+	return (res * sign);
+}
 int main(int ac, char **av)
 {
 	if (ac <= 4 && ac >= 2)
@@ -138,12 +150,12 @@ int main(int ac, char **av)
 			if (isvalid(av[2]) && isvalid(av[3]))
 				julia(ft_atoi(av[2]), ft_atoi(av[3]));
 			else
-				printf("Error\n");
+				ft_printf("Error\n");
 		}
 		else
-			printf("Error\n");
+			ft_printf("Error\n");
 	}
 	else
-		printf("Error\n");
+		ft_printf("Error\n");
 	return (0);	
 }

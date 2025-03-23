@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+# include "./ft_printf/ft_printf.h"
+
 typedef struct s_graph {
 	double	x_min;
 	double	x_max;

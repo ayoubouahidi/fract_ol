@@ -17,15 +17,24 @@
 #define HEIGHT 1920
 #define WIDTH 1080
 
-int	close(int keycode,t_data *vars)
+int close_mandl(t_data *vars)
 {
-	if (keycode == 65307)
-	{
-		mlx_destroy_window(vars->mlx, vars->mlx_win);
-		exit(1);
-	}
+	mlx_destroy_image(vars->mlx, vars->img);
+	mlx_destroy_window(vars->mlx, vars->mlx_win);
+	mlx_destroy_display(vars->mlx);
+	free(vars->mlx);
+	exit(0);
+}
 
-	printf("keycode is ==> %d\n", keycode);
+int escape_mand(int keycode, t_data *vars)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	if (keycode == 65307)
+		close_mandl(vars);
 	return (0);
 }
 
@@ -47,10 +56,14 @@ int rgb(int i)
 	b = (i * 8) % 256; 
 	return (r * 65536 + g * 256 + b);
 }
+// void	drawing_mandelbrot()
+// {
+
+// }
 
 void	drawing_mandelbort(t_data *shap)
 {
-	double x;
+	double (x);
 	double y;
 	double cx;
 	double cy;
@@ -123,8 +136,6 @@ int mandelbrot()
 {
 	t_data shape;
 	t_graph gr;
-	double cx =  -0.7;
-	double cy = 0.27015;
 
 	gr.x_max = 2;
 	gr.x_min = -3.0;
@@ -136,7 +147,8 @@ int mandelbrot()
 	shape.img = mlx_new_image(shape.mlx, 1920, 1080);
 	shape.addr = mlx_get_data_addr(shape.img, &shape.bits_per_pixel, &shape.line_length, &shape.endian);
 	drawing_mandelbort(&shape);
-	mlx_hook(shape.mlx_win, 2, 1L<<0,close, &shape);
+	mlx_hook(shape.mlx_win, 2, 1L << 0, escape_mand, &shape);
+	mlx_hook(shape.mlx_win, 17, 0, close_mandl, &shape);
 	mlx_mouse_hook(shape.mlx_win, mouse_hook, &shape);	
 	mlx_loop(shape.mlx);
 	return (0);
