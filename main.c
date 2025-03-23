@@ -61,6 +61,11 @@ double	ft_atoi(char *str)
 
 int	main(int ac, char **av)
 {
+	if (ac == 1)
+	{
+		ft_printf("choose : \n\tmandelbrot\n\tjulia");
+		return (0);
+	}
 	if (ac <= 4 && ac >= 2)
 	{
 		if (ft_strcmp(av[1], "mandelbrot") == 0)

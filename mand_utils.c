@@ -28,9 +28,9 @@ int	rgb(int i)
 	int	g;
 	int	b;
 
-	r = (i * 19) % 256;
-	g = (i * 10) % 256;
-	b = (i * 8) % 256;
+	r = (i * 5) % 256;
+	g = (i * 50) % 256;
+	b = (i * 80) % 256;
 	return (r * 65536 + g * 256 + b);
 }
 
@@ -58,13 +58,13 @@ void	init_man(t_data *shape)
 		ft_printf("MLX FAIL");
 		exit(1);
 	}
-	shape->mlx_win = mlx_new_window(shape->mlx, 1920, 1080, "MANDELBROT");
+	shape->mlx_win = mlx_new_window(shape->mlx, HEIGHT, WIDTH, "MANDELBROT");
 	if (!shape->mlx_win)
 	{
 		ft_printf("MLX FAIL");
 		close_mandl(shape);
 	}
-	shape->img = mlx_new_image(shape->mlx, 1920, 1080);
+	shape->img = mlx_new_image(shape->mlx, HEIGHT, WIDTH);
 	if (!shape->img)
 	{
 		ft_printf("MLX FAIL");

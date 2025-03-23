@@ -49,13 +49,13 @@ void	init(t_data *shape)
 		ft_printf("MLX FAIL");
 		exit(1);
 	}
-	shape->mlx_win = mlx_new_window(shape->mlx, 1920, 1080, "JULIA");
+	shape->mlx_win = mlx_new_window(shape->mlx, HEIGHT, WIDTH, "JULIA");
 	if (!shape->mlx_win)
 	{
 		ft_printf("MLX FAIL");
 		close_julia(shape);
 	}
-	shape->img = mlx_new_image(shape->mlx, 1920, 1080);
+	shape->img = mlx_new_image(shape->mlx, HEIGHT, WIDTH);
 	if (!shape->img)
 	{
 		ft_printf("MLX FAIL");
