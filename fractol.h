@@ -10,9 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FRACTOL_H
+# define FRACTOL_H
+
 # include "./ft_printf/ft_printf.h"
 
-typedef struct s_graph {
+typedef struct s_graph 
+{
 	double	x_min;
 	double	x_max;
 	double	y_max;
@@ -33,9 +37,7 @@ typedef struct	s_data {
 }				t_data;
 
 int	mandelbrot();
-int julia();
-// typedef struct s_vars
-// {
-// 	void *mlx;
-// 	void *mlx_win;
-// }				t_vars;
+int	julia(double a, double b)
+
+
+#endif

@@ -45,6 +45,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
+
 int rgb(int i)
 {
 	int r;
@@ -56,44 +57,39 @@ int rgb(int i)
 	b = (i * 8) % 256; 
 	return (r * 65536 + g * 256 + b);
 }
-// void	drawing_mandelbrot()
-// {
 
-// }
-
+int	i_equalt_to(double zx, double zy, int i_max, t_data *shap)
+{
+	int (i);
+	double (zr), (zi);
+	i = 0;
+	while (zx * zx + zy * zy < 4 && i < i_max)
+			{
+				zr = (zx * zx) - (zy * zy) + shap->gr->cx;
+				zi = 2 * zx * zy + shap->gr->cy;
+				zx = zr;
+				zy = zi;
+				i++;
+			}
+	return(i);
+}
 void	drawing_mandelbort(t_data *shap)
 {
-	double (x);
-	double y;
-	double cx;
-	double cy;
-	double zx;
-	double zy;
-	double zr;
-	double zi;
-	int	i;
-	int	i_max;
+	double (x), (y), (zx), (zy);
+	int	(i), (i_max);
 
 	y = 0;
 	i_max = 100.0;
 	while (y < WIDTH)
 	{
-		cy = shap->gr->y_min + y / WIDTH * (shap->gr->y_max - shap->gr->y_min); 
+		shap->gr->cy = shap->gr->y_min + y / WIDTH * (shap->gr->y_max - shap->gr->y_min); 
 		x = 0;
 		while (x < HEIGHT)
 		{
-			cx = shap->gr->x_min + x / HEIGHT * (shap->gr->x_max - shap->gr->x_min);
+			shap->gr->cx = shap->gr->x_min + x / HEIGHT * (shap->gr->x_max - shap->gr->x_min);
 			zx = 0.0;
 			zy = 0.0;
-			i = 0.0;
-			while (zx * zx + zy * zy < 4 && i < i_max)
-			{
-				zr = (zx * zx) - (zy * zy) + cx;
-				zi = 2 * zx * zy + cy;
-				zx = zr;
-				zy = zi;
-				i++;
-			}
+			i = i_equalt_to(zx, zy, i_max, shap);
 			if (i == i_max)
 				my_mlx_pixel_put(shap, x, y, 0x000000);
 			else
@@ -143,8 +139,14 @@ int mandelbrot()
 	gr.y_min = -1.5;
 	shape.gr = &gr;
 	shape.mlx = mlx_init();
-	shape.mlx_win = mlx_new_window(shape.mlx, 1920, 1080, "TEST3");
+	if(!shape.mlx)
+		return(ft_printf("MLX FAIL"), 0);
+	shape.mlx_win = mlx_new_window(shape.mlx, 1920, 1080, "MANDELBROT");
+	if(!shape.mlx_win)
+		return(ft_printf("MLX FAIL"), 0);
 	shape.img = mlx_new_image(shape.mlx, 1920, 1080);
+	if(!shape.img)
+		return(ft_printf("MLX FAIL"), 0);
 	shape.addr = mlx_get_data_addr(shape.img, &shape.bits_per_pixel, &shape.line_length, &shape.endian);
 	drawing_mandelbort(&shape);
 	mlx_hook(shape.mlx_win, 2, 1L << 0, escape_mand, &shape);

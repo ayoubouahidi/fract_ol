@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "minilibx-linux/mlx.h"
 #include "fractol.h"
+#include "minilibx-linux/mlx.h"
+#include <stdio.h>
 
 int	lenght(char *av)
 {
@@ -69,26 +69,28 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 }
 
-
-int isvalid(char *str)
+int	isvalid(char *str)
 {
-    int i;
-    int has_decimal;
-	int len;
+	int	i;
+	int	has_decimal;
+	int	len;
 
 	len = lenght(str);
 	i = 0;
 	has_decimal = 0;
-	if (str[i] == '+' || str[i] == '-') 
+	if (str[i] == '+' || str[i] == '-')
 		i++;
-    while (str[i] != '\0') {
-        if (str[i] == '.') {
-            if (has_decimal || i == 0 || i == len - 1 || str[i -1] == '-')
-                return 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '.')
+		{
+			if (has_decimal || i == 0 || i == len - 1 || str[i - 1] == '-')
+				return (0);
 			has_decimal = 1;
-		} 
-		else if (!ft_isdigit(str[i])) {
-			return 0;
+		}
+		else if (!ft_isdigit(str[i]))
+		{
+			return (0);
 		}
 		i++;
 	}
@@ -96,9 +98,9 @@ int isvalid(char *str)
 }
 
 double	check_calcul(char *str, int i)
-{	
+{
 	double	dicimal;
-	double    result;
+	double	result;
 
 	result = 0;
 	dicimal = 1.0;
@@ -122,9 +124,9 @@ double	check_calcul(char *str, int i)
 
 double	ft_atoi(char *str)
 {
-    int	i;
-    int	sign;
-    double	res;
+	int		i;
+	int		sign;
+	double	res;
 
 	i = 0;
 	sign = 1;
@@ -139,13 +141,13 @@ double	ft_atoi(char *str)
 	res = check_calcul(str, i);
 	return (res * sign);
 }
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	if (ac <= 4 && ac >= 2)
 	{
-		if (ft_strncmp(av[1], "mandelbrot", 10) == 0 )
+		if (ft_strncmp(av[1], "mandelbrot", 10) == 0)
 			mandelbrot();
-		else if (ft_strncmp(av[1], "julia", 5) == 0 && (ac ==4 ))
+		else if (ft_strncmp(av[1], "julia", 5) == 0 && (ac == 4))
 		{
 			if (isvalid(av[2]) && isvalid(av[3]))
 				julia(ft_atoi(av[2]), ft_atoi(av[3]));
@@ -157,5 +159,5 @@ int main(int ac, char **av)
 	}
 	else
 		ft_printf("Error\n");
-	return (0);	
+	return (0);
 }

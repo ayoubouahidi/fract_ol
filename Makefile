@@ -16,7 +16,7 @@ all: $(NAME)
 
 
 $(NAME): $(OBJS) $(FT_PRINTF_LIB) $(LIBFT_LIB)
-	$(CC) $(CFLAGS) $(OBJS) $(FT_PRINTF_LIB) $(LIBFT_LIB) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(FT_PRINTF_LIB) -Lmlx_linux -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 $(FT_PRINTF_LIB):
 	$(MK) -C $(FT_PRINTF_DIR)
